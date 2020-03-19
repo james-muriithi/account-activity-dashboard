@@ -8,6 +8,7 @@ const security = require('./helpers/security')
 const auth = require('./helpers/auth')
 const cacheRoute = require('./helpers/cache-route')
 const socket = require('./helpers/socket')
+const message = require('./helpers/message')
 
 const app = express()
 
@@ -20,14 +21,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(passport.initialize());
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
 }))
 
 // start server
 const server = app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'))
+    console.log('Node app is running on port', app.get('port'))
 })
 
 // initialize socket.io
@@ -42,19 +43,19 @@ var parseForm = bodyParser.urlencoded({ extended: false })
  **/
 app.get('/webhook/twitter', function(request, response) {
 
-  var crc_token = request.query.crc_token
+    var crc_token = request.query.crc_token
 
-  if (crc_token) {
-    var hash = security.get_challenge_response(crc_token, auth.twitter_oauth.consumer_secret)
+    if (crc_token) {
+        var hash = security.get_challenge_response(crc_token, auth.twitter_oauth.consumer_secret)
 
-    response.status(200);
-    response.send({
-      response_token: 'sha256=' + hash
-    })
-  } else {
-    response.status(400);
-    response.send('Error: crc_token missing from request.')
-  }
+        response.status(200);
+        response.send({
+            response_token: 'sha256=' + hash
+        })
+    } else {
+        response.status(400);
+        response.send('Error: crc_token missing from request.')
+    }
 })
 
 
@@ -63,14 +64,14 @@ app.get('/webhook/twitter', function(request, response) {
  **/
 app.post('/webhook/twitter', function(request, response) {
 
-  console.log(request.body)
-  
-  socket.io.emit(socket.activity_event, {
-    internal_id: uuid(),
-    event: request.body
-  })
+    console.log(request.body)
 
-  response.send('200 OK')
+    socket.io.emit(socket.activity_event, {
+        internal_id: uuid(),
+        event: request.body
+    })
+
+    response.send('200 OK')
 })
 
 
@@ -78,7 +79,7 @@ app.post('/webhook/twitter', function(request, response) {
  * Serves the home page
  **/
 app.get('/', function(request, response) {
-  response.render('index')
+    response.render('index')
 })
 
 
@@ -95,14 +96,14 @@ app.get('/subscriptions', auth.basic, cacheRoute(1000), require('./routes/subscr
  * Starts Twitter sign-in process for adding a user subscription
  **/
 app.get('/subscriptions/add', passport.authenticate('twitter', {
-  callbackURL: '/callbacks/addsub'
+    callbackURL: '/callbacks/addsub'
 }));
 
 /**
  * Starts Twitter sign-in process for removing a user subscription
  **/
 app.get('/subscriptions/remove', passport.authenticate('twitter', {
-  callbackURL: '/callbacks/removesub'
+    callbackURL: '/callbacks/removesub'
 }));
 
 
@@ -126,5 +127,4 @@ app.get('/activity', auth.basic, require('./routes/activity'))
  * Handles Twitter sign-in OAuth1.0a callbacks
  **/
 app.get('/callbacks/:action', passport.authenticate('twitter', { failureRedirect: '/' }),
-  require('./routes/sub-callbacks'))
-
+    require('./routes/sub-callbacks'))
