@@ -71,6 +71,12 @@ app.post('/webhook/twitter', function(request, response) {
         event: request.body
     })
 
+    let event = request.body
+        //if event is a direct mesage send back greetings
+    if (event.direct_message_events) {
+        await message.sayHi(event);
+    }
+
     response.send('200 OK')
 })
 
