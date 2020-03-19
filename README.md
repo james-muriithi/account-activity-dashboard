@@ -26,7 +26,7 @@ For the enterprise tier of the Account Activity API, please check out the [Enter
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/twitterdev/account-activity-dashboard.git
+    git clone https://github.com/james-muriithi/account-activity-dashboard
     ```
 
 2. Install Node.js dependencies:
@@ -124,6 +124,10 @@ These scripts should be executed from root of the project folder. Your environme
     ```
 
 3. Configure environment variables for each  See Heroku documentation on [Configuration and Config Vars](https://devcenter.heroku.com/articles/config-vars).
+    ```bash
+    #  Heroku
+    $ heroku config:set TWITTER_CONSUMER_KEY=value TWITTER_CONSUMER_SECRET=value TWITTER_ACCESS_TOKEN=value TWITTER_ACCESS_TOKEN_SECRET=value TWITTER_WEBHOOK_ENV=value BASIC_AUTH_USER=value BASIC_AUTH_PASSWORD=value
+    ```
 
 4. Deploy to Heroku.
 
