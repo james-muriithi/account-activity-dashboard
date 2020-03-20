@@ -48,6 +48,20 @@ let sendMessage = async(recipient, message) => {
                     },
                     message_data: {
                         text: message,
+                        quick_reply: {
+                            type: "options",
+                            options: [{
+                                    label: "History",
+                                    description: "View previosly shared tweets.",
+                                    metadata: "history"
+                                },
+                                {
+                                    label: "Help",
+                                    description: "Get help on how to use me.",
+                                    metadata: "help"
+                                }
+                            ]
+                        }
                     },
                 },
             },
@@ -95,7 +109,21 @@ let generateWelcomeMessage = async() => {
                     "ctas": [{
                         type: "web_url",
                         label: "Buy me coffee",
-                        url: "https://www.buymeacoffee.com/TZc3Nfp"
+                        url: "https://www.buymeacoffee.com/TZc3Nfp",
+                        quick_reply: {
+                            type: "options",
+                            options: [{
+                                    label: "History",
+                                    description: "View previosly shared tweets.",
+                                    metadata: "history"
+                                },
+                                {
+                                    label: "Help",
+                                    description: "Get help on how to use me.",
+                                    metadata: "help"
+                                }
+                            ]
+                        }
                     }]
                 },
             }
